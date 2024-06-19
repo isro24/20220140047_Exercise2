@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Pemesanan Air AQUA</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        body {
+            background-color: #00bfff;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            margin-top: 50px;
+            padding: 30px;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Formulir Pemesanan</h1>
+        <form id="orderForm">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName">Nama Depan:</label>
+                    <input type="text" class="form-control" id="firstName" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastName">Nama Belakang:</label>
+                    <input type="text" class="form-control" id="lastName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">No HP:</label>
+                <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Alamat Pengiriman:</label>
+                <input type="text" class="form-control" id="address" required>
+            </div>
+            <div class="form-group">
+                <label>Jumlah Pesanan Total:</label>
+                <input type="number" class="form-control" id="totalQuantity" required min="1">
+            </div>
+            <div class="form-group">
+                <label>Jenis AQUA:</label><br>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sizeSmall" name="size" value="AQUA Gelas (220ml)">
+                    <label class="form-check-label" for="sizeSmall">AQUA Gelas (220ml) 1 Dus</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sizeMedium" name="size" value="AQUA Botol (600ml)">
+                    <label class="form-check-label" for="sizeMedium">AQUA Botol (600ml) 1 Dus</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sizeLarge" name="size" value="AQUA Galon (19L)">
+                    <label class="form-check-label" for="sizeLarge">AQUA Galon (19L)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Metode Pembayaran:</label><br>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="paymentTransfer" name="payment" value="Transfer Bank" required>
+                    <label class="form-check-label" for="paymentTransfer">Transfer Bank</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="paymentCOD" name="payment" value="Cash on Delivery (COD)">
+                    <label class="form-check-label" for="paymentCOD">Cash on Delivery (COD)</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="paymentCreditCard" name="payment" value="Kartu Kredit">
+                    <label class="form-check-label" for="paymentCreditCard">Kartu Kredit</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; PT Air Mineral AQUA 2022</p>
+    </footer>
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const totalQuantity = document.getElementById('totalQuantity').value;
+            
+            const sizeSmallChecked = document.getElementById('sizeSmall').checked;
+            const sizeMediumChecked = document.getElementById('sizeMedium').checked;
+            const sizeLargeChecked = document.getElementById('sizeLarge').checked;
+            
+            const sizes = [
+                sizeSmallChecked ? 'AQUA Gelas (220ml)' : '',
+                sizeMediumChecked ? 'AQUA Botol (600ml)' : '',
+                sizeLargeChecked ? 'AQUA Galon (19L)' : ''
+            ].filter(Boolean).join(', ');
+
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+
+            Swal.fire({
+                title: 'Pemesanan Berhasil',
+                html: `<p>Nama: ${firstName} ${lastName}</p>
+                       <p>No HP: ${phone}</p>
+                       <p>Alamat Pengiriman: ${address}</p>
+                       <p>Jumlah Pesanan Total: ${totalQuantity}</p>
+                       <p>Jenis AQUA: ${sizes}</p>
+                       <p>Metode Pembayaran: ${payment}</p>`,
+                icon: 'success'
+            });
+        });
+    </script>
+</body>
+</html>
